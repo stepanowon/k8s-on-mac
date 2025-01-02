@@ -79,9 +79,14 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 # kubectl 도구가 설치된 다른 컴퓨터를 이용하고 싶다면 ~/.kube/config 파일을 복사하여 사용함
 
 # kubectl 자동완성 기능과 kubectl --> k로 사용하기
-echo 'alias k=kubectl' >>~/.zshrc
+sudo apt install bash-completion
+source /usr/share/bash-completion/bash_completion
 
-source ~/.zshrc
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+echo 'alias k=kubectl' >>~/.bashrc
+echo 'complete -F __start_kubectl k' >>~/.bashrc
+
+source ~/.bashrc
 ```
 
 #### [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함. 
