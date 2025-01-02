@@ -52,8 +52,8 @@ kubectl rollout restart deployment controller -n metallb-system
 ## vagrant을 이용해서 VM을 설치
 ```sh
 # github repo에서 vagrantfile을 내려받아 설치
-git clone https://github.com/stepanowon/k8s-multi-node
-cd k8s-multi-node
+git clone https://github.com/stepanowon/k8s-on-mac
+cd k8s-on-mac
 vagrant up
 
 # 설치가 완료된 후 reload
