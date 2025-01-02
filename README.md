@@ -79,12 +79,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 # kubectl 도구가 설치된 다른 컴퓨터를 이용하고 싶다면 ~/.kube/config 파일을 복사하여 사용함
 
 # kubectl 자동완성 기능과 kubectl --> k로 사용하기
-sudo apt install bash-completion
-source /usr/share/bash-completion/bash_completion
-
-echo 'source <(kubectl completion bash)' >>~/.zshrc
 echo 'alias k=kubectl' >>~/.zshrc
-echo 'complete -F __start_kubectl k' >>~/.zshrc
 
 source ~/.zshrc
 ```
