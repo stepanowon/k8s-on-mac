@@ -28,6 +28,8 @@ brew install hashicorp/tap/hashicorp-vagrant
 ```sh
 vagrant plugin install vagrant-vmware-desktop
 ```
+* vagrant vmware utility 다운로드하여 설치
+  - https://developer.hashicorp.com/vagrant/install/vmware
 
 ## metallb, ingress-nginx-controller 까지 설치된 경우 재부팅했을 때 실행할것
 ```sh
