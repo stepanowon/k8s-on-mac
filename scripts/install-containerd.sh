@@ -32,5 +32,6 @@ sed -i 's|^\(\s*sandbox_image\)\s*=\s*\(.*\)$|\1 = "registry.k8s.io/pause:3.9"|'
 grep 'sandbox_image' ${CONTAINERD_CONFIG_FILE}
 
 systemctl restart containerd
+systemctl restart containerd.service
 
 echo "### containerd completed"

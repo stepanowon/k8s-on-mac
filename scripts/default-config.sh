@@ -32,4 +32,6 @@ systemctl start rc-local.service
 apt-get install ntp -y
 systemctl restart ntp
 
+netplan apply
+
 echo "### 기본 설정 완료 - default-config.sh "
