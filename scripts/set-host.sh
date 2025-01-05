@@ -10,4 +10,4 @@ cat << EOF > /etc/hosts
 192.168.56.203  	worker2
 EOF
 
-cat /etc/hosts
+echo "### hostname setup 완료"
