@@ -14,10 +14,9 @@
   - https://support.broadcom.com/group/ecx/productfiles?subFamily=VMware%20Fusion&displayGroup=VMware%20Fusion%2013&release=13.6.1&os=&servicePk=524469&language=EN
 
 * Vagrant 설치 - https://developer.hashicorp.com/vagrant/install?product_intent=vagrant
-```sh
-brew tap hashicorp/tap
-brew install hashicorp/tap/hashicorp-vagrant
-```
+
+* vagrant vmware utility 다운로드하여 설치
+  - https://developer.hashicorp.com/vagrant/install/vmware
 
 * Rosetta 설치 
 ```sh
@@ -28,8 +27,6 @@ brew install hashicorp/tap/hashicorp-vagrant
 ```sh
 vagrant plugin install vagrant-vmware-desktop
 ```
-* vagrant vmware utility 다운로드하여 설치
-  - https://developer.hashicorp.com/vagrant/install/vmware
 
 ## metallb, ingress-nginx-controller 까지 설치된 경우 재부팅했을 때 실행할것
 ```sh
