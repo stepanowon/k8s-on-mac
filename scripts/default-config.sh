@@ -7,7 +7,8 @@ ufw disable
 
 # 업데이트
 apt update
-apt upgrade -y
+#apt upgrade -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 
 # swap off 및 재부팅시에도 swap을 off하도록 서비스로 등록
 swapoff -a
