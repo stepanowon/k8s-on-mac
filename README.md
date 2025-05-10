@@ -6,6 +6,7 @@
   * master : 192.168.56.201
   * worker1 : 192.168.56.202
   * worker2 : 192.168.56.203
+  * worker3 : 192.168.56.204
 - git, containerd
 - kubeadm  
 
