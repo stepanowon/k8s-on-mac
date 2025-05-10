@@ -77,9 +77,6 @@ echo 'alias k=kubectl' >>~/.zshrc
 echo 'complete -F __start_kubectl k' >>~/.zshrc
 source ~/.zshrc
 
-# kubectl 자동완성 기능과 kubectl --> k로 사용하기(맥터미널에서)
-echo 'alias k=kubectl' >>~/.zprofile
-source ~/.zprofile
 ```
 
 #### [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함. 
