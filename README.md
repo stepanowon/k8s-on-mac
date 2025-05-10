@@ -44,6 +44,8 @@ vagrant up
 vagrant reload
 
 # 사용자명과 초기 패스워드 : user1/asdf
+# virtualbox 확장팩 설치치
+sudo apt-get install -y virtualbox-ext-pack
 ```
 
 ## Control Plane 역할의 VM(마스터) 초기화
