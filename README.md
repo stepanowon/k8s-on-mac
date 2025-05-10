@@ -55,7 +55,7 @@ ssh user1@192.168.56.201
 # kubeadm을 이용한 k8s cluster 초기화
 sudo kubeadm init --apiserver-advertise-address=192.168.56.201 --pod-network-cidr=10.244.0.0/16
 
-# kubeconfig 파일을 로컬 master의 vagrant 사용자의 홈디렉토리에 복사
+# kubeconfig 파일을 master의 user1 사용자의 홈디렉토리에 복사
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -70,6 +70,12 @@ echo 'source <(kubectl completion bash)' >>~/.bashrc
 echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -F __start_kubectl k' >>~/.bashrc
 source ~/.bashrc
+
+# mac에서 kubectl --> k로 사용하고 싶다면 다음 실행
+echo 'source <(kubectl completion zsh)' >>~/.zshrc
+echo 'alias k=kubectl' >>~/.zshrc
+echo 'complete -F __start_kubectl k' >>~/.zshrc
+source ~/.zshrc
 
 # kubectl 자동완성 기능과 kubectl --> k로 사용하기(맥터미널에서)
 echo 'alias k=kubectl' >>~/.zprofile
