@@ -2,7 +2,24 @@
 
 set -euo pipefail
 
-# ip forwarding 기능 구성
+swapoff -a
+sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+
+cat <<EOF | sudo tee /etc/rc.local
+#!/bin/bash
+swapoff -a
+sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+exit 0
+EOF
+
+chmod +x /etc/rc.local
+
+echo -e "[Install]" >> /lib/systemd/system/rc-local.service
+echo -e "WantedBy=multi-user.target" >> /lib/systemd/system/rc-local.service
+
+systemctl enable rc-local.service
+systemctl start rc-local.service
+
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 overlay
 br_netfilter
@@ -19,7 +36,6 @@ EOF
 
 sysctl --system
 
-
 CONTAINERD_CONFIG_FILE=/etc/containerd/config.toml
 
 apt install -y containerd
@@ -32,6 +48,3 @@ sed -i 's|^\(\s*sandbox_image\)\s*=\s*\(.*\)$|\1 = "registry.k8s.io/pause:3.9"|'
 grep 'sandbox_image' ${CONTAINERD_CONFIG_FILE}
 
 systemctl restart containerd
-systemctl restart containerd.service
-
-echo "### containerd completed"
