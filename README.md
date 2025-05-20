@@ -166,7 +166,7 @@ tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   
 
 #### 공식문서
 https://metallb.universe.tf/installation/
-
+* 설정 작업은 master 노드에서 진행합니다.
 
 #### kube-proxy의 strictARP 설정값을 true로 변경
 
