@@ -1,14 +1,14 @@
 # 로컬 머신에 멀티노드 k8s 클러스터 만들기
 
-## 기본 설치 사항
+## 기본 설치 사항 : k8s 1.30 버전 기준 -> 1.33 버전 설치는 [**여기**](https://github.com/stepanowon/k8s-on-mac/tree/v1.33)로 
 - ubuntu-24.04
 - node
   * master : 192.168.56.201 - 2vcpu, 4GB Memory
   * worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
   * worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
   * worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
-- 설치된 소프트웨어 : git, containerd, kubeadm v1.33
-  * kubeadm v1.33 도구를 이용해 k8s 구성
+- 설치된 소프트웨어 : git, containerd, kubeadm v1.30
+  * kubeadm v1.30 도구를 이용해 k8s 구성
 - user1/asdf 로 사용자 생성
 - user1을 sudoer로 등록
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
