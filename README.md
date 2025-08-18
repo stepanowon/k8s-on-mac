@@ -87,7 +87,7 @@ source ~/.zshrc
 
 ```sh
 ## calico CNI 설치
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.5/manifests/tigera-operator.yaml
 kubectl create -f ~/vagrant/conf/calico-resources.yaml
 
 ## 설치 확인
@@ -134,9 +134,9 @@ $ ssh user1@192.168.56.201
 
 $ kubectl get nodes
 NAME      STATUS   ROLES           AGE     VERSION
-master    Ready    control-plane   7m14s   v1.30.7
-worker1   Ready    <none>          5m53s   v1.30.7
-worker2   Ready    <none>          3m41s   v1.30.7
+master    Ready    control-plane   7m14s   v1.33.4
+worker1   Ready    <none>          5m53s   v1.33.4
+worker2   Ready    <none>          3m41s   v1.33.4
 
 # calico CNI, worker1, worker2 설치 확인
 $ kubectl get pods --all-namespaces
@@ -179,7 +179,7 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: f
 
 #### yaml 파일 이용해 metalLB 설치
 ```sh
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 ```
 
 #### 설치된 metalLB 요소 확인
@@ -283,7 +283,7 @@ $ kubectl delete -f ~/vagrant/conf/svc-lb.yaml
 
 #### ingress-nginx-controller 설치
 ```sh
-$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.3/deploy/static/provider/baremetal/deploy.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.13.1/deploy/static/provider/baremetal/deploy.yaml
 
 # 설치 확인
 $ kubectl get all -n ingress-nginx
@@ -394,8 +394,8 @@ $ curl http://demo.example.com/path2/abc
 kubectl delete -f ~/vagrant/conf/nodeapp1.yaml
 kubectl delete -f ~/vagrant/conf/nodeapp2.yaml
 kubectl delete -f ~/vagrant/conf/nodeapp-ingress.yaml
-kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.3/deploy/static/provider/baremetal/deploy.yaml
-
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.13.1/deploy/static/provider/baremetal/deploy.yaml
+kubectl delete ns ingress-nginx
 ```
 
 ## Control Plane 추가 방법
