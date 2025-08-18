@@ -14,6 +14,7 @@
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
 
 ## 사전 요구사항
+* Git 도구 설치 : 설치 문서 생략  
 * Oracle VirtualBox - 다음 경로에서 다운로드받아 설치합니다.
   - https://www.virtualbox.org/wiki/Downloads
     * VirtualBox Extension Pack 도 함께 다운로드 받습니다.
@@ -42,6 +43,7 @@
 # github repo에서 vagrantfile을 내려받아 설치
 git clone https://github.com/stepanowon/k8s-on-mac
 cd k8s-on-mac
+git switch v1.33
 vagrant up
 
 # 설치가 완료된 후 reload
