@@ -3,12 +3,15 @@
 ## 기본 설치 사항
 - ubuntu-24.04
 - node
-  * master : 192.168.56.201
-  * worker1 : 192.168.56.202
-  * worker2 : 192.168.56.203
-  * worker3 : 192.168.56.204
-- git, containerd
-- kubeadm  
+  * master : 192.168.56.201 - 2vcpu, 4GB Memory
+  * worker1 : 192.168.56.202 - 1vcpu, 2GB Memory
+  * worker2 : 192.168.56.203 - 1vcpu, 2GB Memory
+  * worker3 : 192.168.56.203 - 1vcpu, 2GB Memory
+- 설치된 소프트웨어 : git, containerd, kubeadm v1.33
+  * kubeadm v1.33 도구를 이용해 k8s 구성
+- user1/asdf 로 사용자 생성
+- user1을 sudoer로 등록
+- 모든 vm에 hosts 파일 등록 : master, worker1~3
 
 ## 사전 요구사항
 * Oracle VirtualBox - 다음 경로에서 다운로드받아 설치합니다.
@@ -80,7 +83,7 @@ source ~/.zshrc
 
 ```
 
-#### [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함. 
+## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함. 
 
 ```sh
 ## calico CNI 설치
