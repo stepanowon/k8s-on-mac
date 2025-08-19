@@ -167,7 +167,7 @@ tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   
 ```
 
 ---
-## metalLB 설치 (v0.14.8 기준)
+## metalLB 설치 (v0.15.2 기준)
 
 #### 공식문서
 https://metallb.universe.tf/installation/
