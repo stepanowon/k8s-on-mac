@@ -50,6 +50,7 @@
 # github repo에서 vagrantfile을 내려받아 설치
 git clone https://github.com/stepanowon/k8s-on-mac
 cd k8s-on-mac
+git switch v1.34
 vagrant up
 
 # 설치가 완료된 후 reload
