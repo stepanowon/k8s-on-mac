@@ -2,11 +2,6 @@
 
 ## 기본 설치 사항 : k8s 1.30 기준 설치
 
-#### 다른 버전
-
-- 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.33)
-- 1.34 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.34)
-
 #### 설치 내역
 
 - ubuntu-24.04
@@ -57,6 +52,7 @@
 # github repo에서 vagrantfile을 내려받아 설치
 git clone https://github.com/stepanowon/k8s-on-mac
 cd k8s-on-mac
+git switch v1.30
 vagrant up
 
 # 설치가 완료된 후 reload
