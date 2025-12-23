@@ -1,9 +1,13 @@
 # 로컬 머신에 멀티노드 k8s 클러스터 만들기
 
-## 기본 설치 사항 : k8s 1.30 기준 설치
+## 기본 설치 사항 : k8s 1.34
 
-#### 설치 내역
+### 과거 버전은 아래 링크로
 
+- 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.33)
+- 1.30 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.30)
+
+### v1.34 
 - ubuntu-24.04
 - node
   - master : 192.168.56.201 - 2vcpu, 4GB Memory
@@ -100,7 +104,7 @@ source ~/.zshrc
 
 ```sh
 ## calico CNI 설치
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.5/manifests/tigera-operator.yaml
 kubectl create -f ~/vagrant/conf/calico-resources.yaml
 
 ## 설치 확인
@@ -149,9 +153,9 @@ $ ssh user1@192.168.56.201
 
 $ kubectl get nodes
 NAME      STATUS   ROLES           AGE     VERSION
-master    Ready    control-plane   7m14s   v1.30.7
-worker1   Ready    <none>          5m53s   v1.30.7
-worker2   Ready    <none>          3m41s   v1.30.7
+master    Ready    control-plane   7m14s   v1.34.1
+worker1   Ready    <none>          5m53s   v1.34.1
+worker2   Ready    <none>          3m41s   v1.34.1
 
 # calico CNI, worker1, worker2 설치 확인
 $ kubectl get pods --all-namespaces
@@ -181,7 +185,7 @@ tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   
 
 ---
 
-## metalLB 설치 (v0.14.8 기준)
+## metalLB 설치 (v0.15.2 기준)
 
 #### 공식문서
 
@@ -198,7 +202,7 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: f
 #### yaml 파일 이용해 metalLB 설치
 
 ```sh
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
 ```
 
 #### 설치된 metalLB 요소 확인
@@ -310,7 +314,7 @@ $ kubectl delete -f ~/vagrant/conf/svc-lb.yaml
 #### ingress-nginx-controller 설치
 
 ```sh
-$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.3/deploy/static/provider/baremetal/deploy.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.14.1/deploy/static/provider/baremetal/deploy.yaml
 
 # 설치 확인
 $ kubectl get all -n ingress-nginx
