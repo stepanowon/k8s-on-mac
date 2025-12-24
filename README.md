@@ -7,7 +7,8 @@
 - 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.33)
 - 1.30 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.30)
 
-### v1.34 
+### v1.34
+
 - ubuntu-24.04
 - node
   - master : 192.168.56.201 - 2vcpu, 4GB Memory
@@ -56,7 +57,6 @@
 # github repo에서 vagrantfile을 내려받아 설치
 git clone https://github.com/stepanowon/k8s-on-mac
 cd k8s-on-mac
-git switch v1.30
 vagrant up
 
 # 설치가 완료된 후 reload
