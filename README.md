@@ -97,7 +97,9 @@ echo 'source <(kubectl completion zsh)' >>~/.zshrc
 echo 'alias k=kubectl' >>~/.zshrc
 echo 'complete -F __start_kubectl k' >>~/.zshrc
 source ~/.zshrc
-
+# 이후 보안 설정을 수행해야 함(반드시 수행해야 함)
+# 1. '시스템 설정 - 개인정보 보호 및 보안 - 전체 디스크 접근 권한' 으로 이동합니다.
+# 2. + 기호를 눌러 사용하는 터미널 프로그램(예: iTerm) 을 추가하고 권한을 부여합니다.
 ```
 
 ## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함.
