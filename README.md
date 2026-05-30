@@ -309,7 +309,7 @@ $ kubectl delete -f ~/vagrant/conf/svc-lb.yaml
 
 [https://kubernetes.github.io/ingress-nginx/deploy/baremetal](https://kubernetes.github.io/ingress-nginx/deploy/baremetal).
 
-- 2026년 3월에 기술지원 종료 예정
+- 2026년 3월에 기술지원 종료 예정 - 아래에 설명하는 haxproxy-ingress-controller 사용할 것
 
 #### 미리 설치할 것
 
