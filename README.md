@@ -1,5 +1,14 @@
 # 로컬 머신에 멀티노드 k8s 클러스터 만들기
 
+## 클라이언트 도구 설정 방법
+
+- [Macos 사용자를 위한 클라이언트 도구 설정 가이드](client-setup.md)
+- 설치하는 도구
+  - kubectl
+  - argocd CLI
+  - kubectl argo rollouts
+  - helm
+
 ## 기본 설치 사항 : k8s 1.36
 
 ### 과거 버전은 아래 링크로
