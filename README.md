@@ -4,10 +4,11 @@
 
 ### 과거 버전은 아래 링크로
 
-- 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.33)
 - 1.30 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.30)
+- 1.33 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.33)
+- 1.34 버전 설치는 [여기](https://github.com/stepanowon/k8s-on-mac/tree/v1.34)
 
-### v1.34
+### v1.36
 
 - ubuntu-24.04
 - node
@@ -24,14 +25,12 @@
 ## 사전 요구사항
 
 - Oracle VirtualBox - 다음 경로에서 다운로드받아 설치합니다.
-
   - https://www.virtualbox.org/wiki/Downloads
     - VirtualBox Extension Pack 도 함께 다운로드 받습니다.
   - intel chip : macOS / Intel hosts
   - M1,M2,M3 chip : macOS / Apple Silicon hosts
 
   - 설치 시 주의사항
-
     - 설치 도중 Python을 설치하는 과정이 진행될 수 있음
     - 설치 도중 또는 직후에 다음과 같은 오류가 발생하는 경우 조치사항
 
@@ -106,7 +105,7 @@ source ~/.zshrc
 
 ```sh
 ## calico CNI 설치
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.5/manifests/tigera-operator.yaml
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
 kubectl create -f ~/vagrant/conf/calico-resources.yaml
 
 ## 설치 확인
@@ -155,9 +154,9 @@ $ ssh user1@192.168.56.201
 
 $ kubectl get nodes
 NAME      STATUS   ROLES           AGE     VERSION
-master    Ready    control-plane   7m14s   v1.34.1
-worker1   Ready    <none>          5m53s   v1.34.1
-worker2   Ready    <none>          3m41s   v1.34.1
+master    Ready    control-plane   7m14s   v1.36.1
+worker1   Ready    <none>          5m53s   v1.36.1
+worker2   Ready    <none>          3m41s   v1.36.1
 
 # calico CNI, worker1, worker2 설치 확인
 $ kubectl get pods --all-namespaces
@@ -204,7 +203,7 @@ kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: f
 #### yaml 파일 이용해 metalLB 설치
 
 ```sh
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.16.1/config/manifests/metallb-native.yaml
 ```
 
 #### 설치된 metalLB 요소 확인
@@ -555,4 +554,3 @@ kubectl delete -f ~/vagrant/conf/nodeapp2.yaml
 helm uninstall haproxy-ingress -n haproxy-controller
 kubectl delete namespaces haproxy-controller
 ```
-
