@@ -1,6 +1,7 @@
 # 로컬 머신에 멀티노드 k8s 클러스터 만들기
+
 - 이 컨텐츠는 "내 PC로 실습하는 k8s와 gitops 기반 CI/CD 자동화" 교육 과정을 위해 만들어졌습니다.
-  
+
 ## 클라이언트 도구 설정 방법
 
 - [Macos 사용자를 위한 클라이언트 도구 설정 가이드](client-setup.md)
@@ -85,20 +86,21 @@ ssh user1@192.168.56.201
 # kubeadm을 이용한 k8s cluster 초기화
 sudo kubeadm init --apiserver-advertise-address=192.168.56.201 --pod-network-cidr=10.244.0.0/16
 
-# kubeconfig 파일을 master의 user1 사용자의 홈디렉토리에 복사
+# kubeconfig 파일을 로컬 master의 vagrant 사용자의 홈디렉토리에 복사
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # kubectl 도구가 설치된 다른 컴퓨터를 이용하고 싶다면 ~/.kube/config 파일을 복사하여 사용함
 
-# kubectl 자동완성 기능과 kubectl --> k로 사용하기(master에서)
+# kubectl 자동완성 기능과 kubectl --> k로 사용하기
 sudo apt install bash-completion
 source /usr/share/bash-completion/bash_completion
 
 echo 'source <(kubectl completion bash)' >>~/.bashrc
 echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -F __start_kubectl k' >>~/.bashrc
+
 source ~/.bashrc
 
 # mac에서 kubectl --> k로 사용하고 싶다면 다음 실행
@@ -111,87 +113,73 @@ source ~/.zshrc
 # 2. + 기호를 눌러 사용하는 터미널 프로그램(예: iTerm) 을 추가하고 권한을 부여합니다.
 ```
 
+## 작업자 노드 추가(worker1~worker3에서 수행)
+
+- 자신의 컴퓨터 용량에 따라 worker node를 2개로 줄일 수 있음
+  - 기본은 worker node 3EA 설치
+
+```sh
+# worker1,2,3에서 작업
+ssh user1@192.168.56.202
+ssh user1@192.168.56.203
+ssh user1@192.168.56.204
+
+# 마스터에서 kubeadm init 명령어 수행후 콘솔에 출력된 join 명령어 앞에 sudo를 붙여서 실행함. 형식은 다음과 같음
+$ sudo kubeadm join 192.168.56.201:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
+
+# 만일 token과 hash 값을 알수 없다면 master에서 다음 명령어 실행하여 확인
+# kubeadm token list
+# kubeadm token create --print-join-command
+```
+
 ## [Calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart) CNI 플러그인을 설치함.
 
 ```sh
+## master(192.168.56.201)에 접속한 터미널에서 실행
 ## calico CNI 설치
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.32.1/manifests/tigera-operator.yaml
+## 잠시 대기 후 다음 명령어 실행
 kubectl create -f ~/vagrant/conf/calico-resources.yaml
 
-## 설치 확인
-$ kubectl get pods --all-namespaces
-NAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE
-calico-apiserver   calico-apiserver-8557fd65f-h5799           1/1     Running   0          57s
-calico-apiserver   calico-apiserver-8557fd65f-p6mw4           1/1     Running   0          57s
-calico-system      calico-kube-controllers-56fccc4788-7fjg9   1/1     Running   0          2m32s
-calico-system      calico-node-xpkbv                          1/1     Running   0          2m33s
-calico-system      calico-typha-74f5bfd6f7-z2pg5              1/1     Running   0          2m33s
-calico-system      csi-node-driver-w24hd                      2/2     Running   0          2m33s
-kube-system        coredns-55cb58b774-6ccdl                   1/1     Running   0          3m56s
-kube-system        coredns-55cb58b774-dv58v                   1/1     Running   0          3m56s
-kube-system        etcd-master                                1/1     Running   1          4m8s
-kube-system        kube-apiserver-master                      1/1     Running   1          4m8s
-kube-system        kube-controller-manager-master             1/1     Running   1          4m12s
-kube-system        kube-proxy-ddj99                           1/1     Running   0          3m56s
-kube-system        kube-scheduler-master                      1/1     Running   1          4m12s
-tigera-operator    tigera-operator-576646c5b6-6h5t5           1/1     Running   0          2m46s
-```
-
-## 작업자 노드 추가(worker1과 worker2에서 수행)
-
-```sh
-# worker1에서 작업
-$ ssh user1@192.168.56.202
-
-```
-
-```sh
-# 마스터에서 kubeadm init 명령어 수행후 콘솔에 출력된 join 명령어를 실행함. 형식은 다음과 같음
-$ sudo kubeadm join 192.168.56.201:6443 --token <token> --discovery-token-ca-cert-hash sha256:<hash>
-
-# 만일 token과 hash 값을 알수 없다면 다음 명령어 실행하여 확인
-# kubeadm token list
-# kubeadm token create --print-join-command
-
-# worker2(192.168.56.203)에서도 동일하게 kubeadm join 할것
+## 설치 확인 - 다음과 같은 상태가 될 때까지 대기
+$ kubectl get pods -A
+NAMESPACE         NAME                                      READY   STATUS    RESTARTS        AGE
+calico-system     calico-apiserver-5b7cddcdfb-9sl5x         1/1     Running   0               3m36s
+calico-system     calico-apiserver-5b7cddcdfb-bmxvt         1/1     Running   0               3m36s
+calico-system     calico-kube-controllers-55bd87978-nzsz4   1/1     Running   0               3m33s
+calico-system     calico-node-6b5sr                         1/1     Running   0               3m19s
+calico-system     calico-node-c5wxh                         1/1     Running   0               3m20s
+calico-system     calico-node-h6jjn                         1/1     Running   0               3m1s
+calico-system     calico-node-mzm29                         1/1     Running   0               3m20s
+calico-system     calico-typha-74b4895f4c-v2jf9             1/1     Running   0               3m35s
+calico-system     calico-typha-74b4895f4c-wlmvh             1/1     Running   0               3m33s
+calico-system     csi-node-driver-7sg6f                     2/2     Running   0               3m34s
+calico-system     csi-node-driver-9gzrz                     2/2     Running   0               3m34s
+calico-system     csi-node-driver-gccqv                     2/2     Running   0               3m34s
+calico-system     csi-node-driver-sqdbx                     2/2     Running   0               3m34s
+kube-system       coredns-589f44dc88-25cmb                  1/1     Running   0               7m34s
+kube-system       coredns-589f44dc88-6btfw                  1/1     Running   0               7m34s
+kube-system       etcd-master                               1/1     Running   0               8m6s
+kube-system       kube-apiserver-master                     1/1     Running   0               8m6s
+kube-system       kube-controller-manager-master            1/1     Running   0               8m6s
+kube-system       kube-proxy-4klwk                          1/1     Running   0               5m24s
+kube-system       kube-proxy-8zb9w                          1/1     Running   0               5m18s
+kube-system       kube-proxy-clltt                          1/1     Running   0               7m34s
+kube-system       kube-proxy-ftxb2                          1/1     Running   0               5m8s
+kube-system       kube-scheduler-master                     1/1     Running   0               8m6s
+tigera-operator   tigera-operator-57886bd678-x5pg9          1/1     Running   0               4m11s
 ```
 
 #### 로컬 컴퓨터에 3노드 k8s 클러스터 구성 완료 확인
 
 ```sh
-# master 접속
-$ ssh user1@192.168.56.201
-
+# master에 접속한 터미널에서 다음 명령어 실행
 $ kubectl get nodes
 NAME      STATUS   ROLES           AGE     VERSION
-master    Ready    control-plane   7m14s   v1.36.1
-worker1   Ready    <none>          5m53s   v1.36.1
-worker2   Ready    <none>          3m41s   v1.36.1
-
-# calico CNI, worker1, worker2 설치 확인
-$ kubectl get pods --all-namespaces
-NAMESPACE          NAME                                       READY   STATUS    RESTARTS        AGE
-calico-apiserver   calico-apiserver-7bb8b6d685-2ztrf          1/1     Running   0               80s
-calico-apiserver   calico-apiserver-7bb8b6d685-ffcss          1/1     Running   0               80s
-calico-system      calico-kube-controllers-77c5b95f97-9l9jz   1/1     Running   0               4m8s
-calico-system      calico-node-8kgkm                          1/1     Running   0               4m
-calico-system      calico-node-9b577                          1/1     Running   0               3m49s
-calico-system      calico-node-g2mng                          1/1     Running   0               3m59s
-calico-system      calico-typha-5885656b6d-9rjsn              1/1     Running   0               4m9s
-calico-system      calico-typha-5885656b6d-x7lsg              1/1     Running   0               4m7s
-calico-system      csi-node-driver-ccltk                      2/2     Running   0               4m11s
-calico-system      csi-node-driver-dkfms                      2/2     Running   0               4m11s
-calico-system      csi-node-driver-thvth                      2/2     Running   0               4m11s
-kube-system        coredns-55cb58b774-hb4bg                   1/1     Running   0               8m3s
-kube-system        coredns-55cb58b774-tmcdx                   1/1     Running   0               8m3s
-kube-system        etcd-master                                1/1     Running   0               8m15s
-kube-system        kube-apiserver-master                      1/1     Running   0               8m15s
-kube-system        kube-controller-manager-master             1/1     Running   1 (5m27s ago)   8m15s
-kube-system        kube-proxy-4rtb7                           1/1     Running   0               7m
-kube-system        kube-proxy-qjdm9                           1/1     Running   0               4m48s
-kube-system        kube-proxy-trcsp                           1/1     Running   0               8m3s
-kube-system        kube-scheduler-master                      1/1     Running   1 (5m27s ago)   8m19s
-tigera-operator    tigera-operator-576646c5b6-d4hdt           1/1     Running   0               4m47s
+master    Ready    control-plane   10m     v1.36.4
+worker1   Ready    <none>          7m2s    v1.36.4
+worker2   Ready    <none>          6m56s   v1.36.4
+worker3   Ready    <none>          6m46s   v1.36.4
 ```
 
 ---
@@ -207,7 +195,9 @@ https://metallb.universe.tf/installation/
 #### kube-proxy의 strictARP 설정값을 true로 변경
 
 ```sh
-kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
+kubectl get configmap kube-proxy -n kube-system -o yaml | \
+  sed -e "s/strictARP: false/strictARP: true/" | \
+  kubectl apply --server-side -f -
 ```
 
 #### yaml 파일 이용해 metalLB 설치
@@ -220,23 +210,24 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.16.1/confi
 
 ```sh
 $ kubectl get all -n metallb-system
-NAME                              READY   STATUS    RESTARTS      AGE
-pod/controller-6dd967fdc7-jdcgq   1/1     Running   1 (33m ago)   34m
-pod/speaker-ftfwm                 1/1     Running   0             34m
-pod/speaker-vddww                 1/1     Running   0             34m
-pod/speaker-x72gz                 1/1     Running   0             34m
+NAME                             READY   STATUS    RESTARTS   AGE
+pod/controller-658745d67-bnz4q   1/1     Running   0          97s
+pod/speaker-2qbqw                1/1     Running   0          97s
+pod/speaker-blsq2                1/1     Running   0          97s
+pod/speaker-hkjzh                1/1     Running   0          97s
+pod/speaker-vls8k                1/1     Running   0          97s
 
-NAME                              TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
-service/metallb-webhook-service   ClusterIP   10.96.10.203   <none>        443/TCP   34m
+NAME                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/metallb-webhook-service   ClusterIP   10.101.26.114   <none>        443/TCP   98s
 
 NAME                     DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
-daemonset.apps/speaker   3         3         3       3            3           kubernetes.io/os=linux   34m
+daemonset.apps/speaker   4         4         4       4            4           kubernetes.io/os=linux   97s
 
 NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/controller   1/1     1            1           34m
+deployment.apps/controller   1/1     1            1           97s
 
-NAME                                    DESIRED   CURRENT   READY   AGE
-replicaset.apps/controller-6dd967fdc7   1         1         1       34m=
+NAME                                   DESIRED   CURRENT   READY   AGE
+replicaset.apps/controller-658745d67   1         1         1       97s
 ```
 
 #### External IP로 사용할 IP Address Pool 과 L2 Advertisement 설정
