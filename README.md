@@ -2,6 +2,21 @@
 
 - 이 컨텐츠는 "내 PC로 실습하는 k8s와 gitops 기반 CI/CD 자동화" 교육 과정을 위해 만들어졌습니다.
 
+## 목차
+
+- [클라이언트 도구 설정 방법](#클라이언트-도구-설정-방법)
+- [기본 설치 사항 : k8s 1.36](#기본-설치-사항--k8s-136)
+  - [과거 버전 설치](#과거-버전은-아래-링크로)
+  - [v1.36 설치](#v136)
+  - [사전 요구사항](#사전-요구사항)
+  - [vagrant 기반 VM 생성](#vagrant을-이용해서-vm을-설치)
+  - [Control Plane(마스터) 초기화](#control-plane-역할의-vm마스터-초기화)
+  - [작업자 노드 추가](#작업자-노드-추가worker1worker3에서-수행)
+- [Calico CNI 설치](#calico-cni-플러그인을-설치함)
+- [metalLB 설치](#metallb-설치-v0161-기준)
+- [Ingress NGINX controller](#ingress-nginx-controller-테스트)
+- [haproxy ingress controller](#haproxy-ingress-controller-테스트)
+
 ## 클라이언트 도구 설정 방법
 
 - [Macos 사용자를 위한 클라이언트 도구 설정 가이드](client-setup.md)
@@ -33,7 +48,7 @@
 - user1을 sudoer로 등록
 - 모든 vm에 hosts 파일 등록 : master, worker1~3
 
-## 사전 요구사항
+### 사전 요구사항
 
 - Oracle VirtualBox - 다음 경로에서 다운로드받아 설치합니다.
   - https://www.virtualbox.org/wiki/Downloads
@@ -61,7 +76,7 @@
   - intel chip : AMD64
   - M1,M2,M3 chip : ARM64
 
-## vagrant을 이용해서 VM을 설치
+### vagrant을 이용해서 VM을 설치
 
 ```sh
 # github repo에서 vagrantfile을 내려받아 설치
@@ -75,7 +90,7 @@ vagrant reload
 # 사용자명과 초기 패스워드 : user1/asdf
 ```
 
-## Control Plane 역할의 VM(마스터) 초기화
+### Control Plane 역할의 VM(마스터) 초기화
 
 ```sh
 # ssh 로 접속. user1/asdf 로 로그인
@@ -113,7 +128,7 @@ source ~/.zshrc
 # 2. + 기호를 눌러 사용하는 터미널 프로그램(예: iTerm) 을 추가하고 권한을 부여합니다.
 ```
 
-## 작업자 노드 추가(worker1~worker3에서 수행)
+### 작업자 노드 추가(worker1~worker3에서 수행)
 
 - 자신의 컴퓨터 용량에 따라 worker node를 2개로 줄일 수 있음
   - 기본은 worker node 3EA 설치
