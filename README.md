@@ -6,12 +6,6 @@
 
 - [클라이언트 도구 설정 방법](#클라이언트-도구-설정-방법)
 - [기본 설치 사항 : k8s 1.36](#기본-설치-사항--k8s-136)
-  - [과거 버전 설치](#과거-버전은-아래-링크로)
-  - [v1.36 설치](#v136)
-  - [사전 요구사항](#사전-요구사항)
-  - [vagrant 기반 VM 생성](#vagrant을-이용해서-vm을-설치)
-  - [Control Plane(마스터) 초기화](#control-plane-역할의-vm마스터-초기화)
-  - [작업자 노드 추가](#작업자-노드-추가worker1worker3에서-수행)
 - [Calico CNI 설치](#calico-cni-플러그인을-설치함)
 - [metalLB 설치](#metallb-설치-v0161-기준)
 - [Ingress NGINX controller](#ingress-nginx-controller-테스트)
